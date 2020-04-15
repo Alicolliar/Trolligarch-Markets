@@ -14,12 +14,10 @@
       <input type="submit">
     </form>
 
-        {% if data %}
-          <p>Ticker: {{data[0]}}</p></br>
-          <p>Company Name: {{data[1]}}</p></br>
-          <p>Share Price: {{data[2]}}</p></br>
-          <p>Share Volume: {{data[3]}}</p></br>
-        {% endif %}
+          <p>Ticker: {{message[0]}}</p></br>
+          <p>Company Name: {{message[1]}}</p></br>
+          <p>Share Price: {{message[2]}}</p></br>
+          <p>Share Volume: {{message[3]}}</p></br>
 
     {% endblock %}
   </body>

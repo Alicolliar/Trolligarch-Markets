@@ -13,8 +13,7 @@ def lookup():
         if request.method == "post":
             stockFile = open("stocks.csv", "r")
             stocks = csv.reader(stockFile)
-            next(reader)
-            ticker = request.form.get("ticker")
+            ticker = request.form.get(ticker)
             for row in stocks:
                 tickers.append(row[0])
                 name.append(row[1])
@@ -27,12 +26,14 @@ def lookup():
                     data.append(name[i])
                     data.append(price[i])
                     data.append(vol[i])
+            if data == False:
+                data.append("Invalid Stock")
 
-        return render_template('about.html', data=data)
+        return render_template('about.html', message=data)
 
 @app.route('/invest', methods=['post', 'get'])
 def investPage():
-     if request.method == "post":
+     if request.method == 'post':
          stockFile = open("stocks.csv", "r")
          orderFile = open("orders.csv", "w")
          person = request.form.get("purchaser")
