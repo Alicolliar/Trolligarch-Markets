@@ -1,0 +1,27 @@
+* {margin: 0; padding: 0}
+body {
+  font-family: arial;
+  margin: auto;
+}
+header {
+  display: block;
+  clear:both;
+  height: 50px;
+  margin-top: 15px;
+  text-align: left;
+}
+nav {
+  clear: both;
+  height: 35px;
+  margin-top: 5px;
+}
+nav ul {list-style-type: none;}
+nav ul li {
+  float: left;
+  width: 160px;
+  text-align: left;
+}
+nav ul li a {
+  display: block;
+  padding: 8px;
+}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Trolligarchian Stock Market - Stock Lookup</title>
+  </head>
+  <body>
+    {% extends "template.html" %}
+    {% block content %}
+
+    <h3>Stock Lookup</h3><br><br>
+    <form action="" method="post">
+      Stock Symbol:
+      <input type="text" name="ticker">
+      <input type="submit">
+    </form>
+
+        {% if data %}
+          <p>Ticker: {{data[0]}}</p></br>
+          <p>Company Name: {{data[1]}}</p></br>
+          <p>Share Price: {{data[2]}}</p></br>
+          <p>Share Volume: {{data[3]}}</p></br>
+        {% endif %}
+
+    {% endblock %}
+  </body>
+</html>

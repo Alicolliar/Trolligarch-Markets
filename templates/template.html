@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Trolligarchian Stock Market</title>
+    <link rel="stylesheet" href="../static/css/main.css">
+    <link rel="shortcut icon" href="../static/img/favicon-16x16.png">
+  </head>
+  <body>
+    <header>
+      <h2>Welcome to the Trolligarchian Stock Market</h2>
+    </header>
+    <nav>
+      <ul>
+        <li><a href="{{url_for('home')}}">Homepage</a></li>
+        <li><a href="{{url_for('lookup')}}">Ticker Lookup</a></li>
+        <li><a href="{{url_for('investPage')}}">Investment Portal</a></li>
+      </ul>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+  <footer>
+    <h3>An Alicolliar Production</h3>
+  </footer>
+  </body>
+</html>
