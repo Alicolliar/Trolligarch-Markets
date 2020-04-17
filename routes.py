@@ -1,12 +1,22 @@
-from flask import Flask, render_template, request, make_response
+from flask import Flask, render_template, request, make_response, send_from_directory
 import csv
 import functs
 app = Flask(__name__)
+
+app.config["HISTORIC_SHEETS"] = "C:/Users/User/Documents/Something useful, maybe/backendData"
+@app.route('/backendData/<sheetName>')
+def giveHistoric(sheetName):
+    return send_from_directory(app.config["HISTORIC_SHEETS"], filename=sheetName)
+
 @app.route('/')
 def home():
     page = make_response(render_template('home.html'))
     page.set_cookie("Got my eye on you", "I'm just funning you")
     return page
+
+@app.route('/rawhistorical')
+def rawhistorical():
+    return render_template('raw.html')
 
 @app.route('/lookup', methods=['post', 'get'])
 def lookup():
@@ -30,7 +40,7 @@ def lookup():
 @app.route('/invest', methods=['post', 'get'])
 def investPage():
      if request.method == "POST":
-         orderFile = open("orders.csv", "w")
+         orderFile = open("backendData/orders.csv", "w")
          person = request.form.get("purchaser")
          stock = request.form.get("stock")
          vol = request.form.get("volume")

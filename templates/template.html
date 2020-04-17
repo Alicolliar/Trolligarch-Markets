@@ -3,7 +3,6 @@
   <head>
     <title>Trolligarchian Stock Market</title>
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/main.css')}}">
-    <link rel="shortcut icon" type="image/x-icon" href="{{url_for('static', filename='img/favicon-16x16.png')}}">
   </head>
   <body>
     <header>
@@ -14,12 +13,13 @@
         <li><a href="{{url_for('home')}}">Homepage</a></li>
         <li><a href="{{url_for('lookup')}}">Ticker Lookup</a></li>
         <li><a href="{{url_for('investPage')}}">Investment Portal</a></li>
+        <li><a href="{{url_for('rawhistorical')}}">Raw Historical Data</a></li>
       </ul>
     </nav>
-
+    <main>
     {% block content %}
     {% endblock %}
-
+  <main>
   <footer>
     <h3>An Alicolliar Production</h3>
   </footer>

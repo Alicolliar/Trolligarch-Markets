@@ -9,17 +9,12 @@
     {% extends "template.html" %}
     {% block content %}
 
-    <h3>Stock Lookup</h3><br><br>
-    <form action="" method="post">
-      Stock Symbol:
-      <input type="text" name="ticker">
-      <input type="submit">
-    </form></br>
-
-          <p>Ticker: {{message[0]}}</p></br>
-          <p>Company Name: {{message[1]}}</p></br>
-          <p>Share Price: {{message[2]}}</p></br>
-          <p>Share Volume: {{message[3]}}</p></br>
+    <h3>Raw Information</h3><br><br>
+    <p>From here all raw historical data can be found about all stocks on the exchange can be accessed.</p><br>
+    <p>All data is in .csv format for ease of access through spreadsheeting programs.</p><br>
+    <ul>
+      <li><a href="backendData/stocks.csv">Sample Data for testing of system.</a></li>
+    </ul>
 
     {% endblock %}
   </body>

@@ -2,8 +2,10 @@
 body {
   font-family: arial;
   margin: auto;
+  height: 800px;
 }
 header {
+  background-color: #CC00FF;
   display: block;
   clear:both;
   height: 50px;
@@ -25,3 +27,4 @@ nav ul li a {
   display: block;
   padding: 8px;
 }
+main {height: 800px}

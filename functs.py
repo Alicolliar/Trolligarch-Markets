@@ -1,7 +1,7 @@
 import csv
 
 def stockLookup(ticker):
-    stockFile = open("stocks.csv", "r")
+    stockFile = open("backendData/stocks.csv", "r")
     stocks = csv.reader(stockFile)
     name = []
     tickers = []
@@ -16,7 +16,7 @@ def stockLookup(ticker):
     return tickers, name, price, vol
 
 def abridStockLookup(ticker):
-    stockFile = open("stocks.csv", "r")
+    stockFile = open("backendData/stocks.csv", "r")
     stocks = csv.reader(stockFile)
     tickers = []
     price = []
