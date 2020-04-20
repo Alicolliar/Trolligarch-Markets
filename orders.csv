@@ -1,2 +1,8 @@
 Purchaser, Stock, Volume, Current Price, Max Cost
-Aligallaton,CNA,1,10,1111111111
+Aligallaton,CNA,10,10,100
+Aligallaton,CNA,1.0,10.0,10.0
+Aligallaton,CNA,1.0,10.0,11.5
+Aligallaton,QUE,15.0,500.0,8625.0
+Aligallaton,QUE,15.0,500.0,8625.0
+Aligallaton,QUE,1.0,500.0,575.0
+Aligallaton,CNA,1.0,1000000.0,1150000.0

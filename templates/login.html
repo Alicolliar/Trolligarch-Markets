@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Trolligarchian Stock Market - Admin Login</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/main.css')}}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{url_for('static', filename='img/favicon-16x16.png')}}">
+  </head>
+  <body>
+    {% extends "template.html" %}
+    {% block content %}
+    <h3>Admin Login Portal</h3></br></br>
+    <p>Admin Login Only</p></br></br>
+    <form method="post">
+      Username:</br>
+      <input type="text" placeholder="Username" name="user"></br>
+      Password: </br>
+      <input type="password" placeholder="Password" name="pwned"></br>
+      <input type="submit" value="Login">
+    </form>
+    </br>
+    {% if message %}
+      <p>{{message}}</p>
+    {% endif %}
+    </br>
+    {% endblock %}
+  </body>
+</html>

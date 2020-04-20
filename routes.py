@@ -3,7 +3,8 @@ import csv
 import functs
 app = Flask(__name__)
 
-app.config["HISTORIC_SHEETS"] = "C:/Users/User/Documents/Something useful, maybe/backendData"
+app.config["HISTORIC_SHEETS"] = "backendData/"
+app.config["PWNED_SHIFT"] = "6"
 @app.route('/backendData/<sheetName>')
 def giveHistoric(sheetName):
     return send_from_directory(app.config["HISTORIC_SHEETS"], filename=sheetName)
@@ -39,23 +40,50 @@ def lookup():
 
 @app.route('/invest', methods=['post', 'get'])
 def investPage():
+     message = ""
      if request.method == "POST":
-         orderFile = open("backendData/orders.csv", "w")
+         orderFile = open("orders.csv", "a")
          person = request.form.get("purchaser")
          stock = request.form.get("stock")
-         vol = request.form.get("volume")
+         vol = float(request.form.get("volume"))
          orders = csv.writer(orderFile)
          tickers = []
+         names = []
          prices = []
-         tickers, prices = functs.abridStockLookup("ticker")
+         tickers, names, prices = functs.abridStockLookup("ticker")
          for i in range(len(tickers)):
              if tickers[i] == stock:
-                 price = int(prices[i])
+                 price = float(prices[i])
+                 name = names[i]
 
-         totalCost = (price*vol)
+         totalCost = ((price*vol)+((price*vol)*0.15))
          orderData = [person, stock, vol, str(price), str(totalCost)]
          orders.writerow(orderData)
-     return render_template('invest.html')
+         message = "Order for " + str(vol) + " of " + name + " placed. Total including tax is £" + str(totalCost) + "."
+     return render_template('invest.html', message=message)
+
+@app.route('/login', methods=['post', 'get'])
+def loginPage():
+    message = ""
+    if request.method == 'POST':
+        shift = int(app.config["PWNED_SHIFT"])
+        uName = request.form.get("user")
+        pWord = request.form.get("pwned")
+        uNames = []
+        dbpWords = []
+        dbpWord = ""
+        uNames, dbpWords = functs.pwnedLookup(uName)
+        for i in range(len(uNames)):
+            if uNames[i] == uName:
+                dbpWord = dbpWords[i]
+
+        decpWord = functs.deCodePwneds(dbpWord, shift)
+        if dbpWord == decpWord:
+            message = "Login succesful"
+        else:
+            message = "Login Failure"
+
+    return render_template('login.html', message=message)
 
 if __name__ == '__main__':
     app.run(debug=True)

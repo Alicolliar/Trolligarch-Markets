@@ -8,17 +8,25 @@
   <body>
     {% extends "template.html" %}
     {% block content %}
-    <h3>Investment Portal</h3><br><br>
-    <p>All orders are delayed by at least 15 minutes</p></br><p>Please ensure all data is correct, as there is no backup as of yet.</p></br></br>
+    <h3>Investment Portal</h3></br></br>
+    <p>All orders are delayed by at least 15 minutes</p></br><p>Please ensure all data is correct, as there is no backup as of yet.</p></br>
+    <p><b>Taxation notice: Under the Fiscal and Treasury Act 2020, all trades are subject to a 15% tax. This is included in the total cost displayed.</b></p></br></br>
     <form method="post">
       Discord Nick:</br>
       <input type="text" placeholder="Discord Nick" name="purchaser"></br>
       Ticker of Stock: </br>
       <input type="text" placeholder="Ticker" name="stock"></br>
       Volume: </br>
-      <input type="number" placeholder="Number of shares" name="volume"></br>
+      <input type="number" placeholder="Number of shares" name="volume" min="1" max="1000"></br>
       <input type="submit">
     </form>
+    </br>
+    {% if message %}
+      </br>
+      {{message}}
+      </br>
+    {% endif %}
+    </br>
     {% endblock %}
   </body>
 </html>
