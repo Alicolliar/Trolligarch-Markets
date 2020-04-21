@@ -6,7 +6,7 @@ body {
 }
 header {
   background-color: #CC00FF;
-  display: block;
+  display: inline;
   clear:both;
   height: 50px;
   margin-top: 15px;
@@ -14,9 +14,9 @@ header {
 }
 .login {
   text-align: right;
-  
 }
 nav {
+  background-color: #CC00FF;
   clear: both;
   height: 35px;
   margin-top: 5px;
@@ -30,4 +30,5 @@ nav ul li {
 nav ul li a {
   display: block;
   padding: 8px;
+  text-decoration: none;
 }

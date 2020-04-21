@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, make_response, send_from_directory
+from flask import Flask, render_template, request, make_response, send_from_directory, url_for, redirect
 import csv
 import functs
 app = Flask(__name__)
@@ -65,25 +65,54 @@ def investPage():
 @app.route('/login', methods=['post', 'get'])
 def loginPage():
     message = ""
+    give = make_response(render_template('login.html', message=message))
     if request.method == 'POST':
         shift = int(app.config["PWNED_SHIFT"])
         uName = request.form.get("user")
         pWord = request.form.get("pwned")
-        uNames = []
-        dbpWords = []
-        dbpWord = ""
-        uNames, dbpWords = functs.pwnedLookup(uName)
-        for i in range(len(uNames)):
-            if uNames[i] == uName:
-                dbpWord = dbpWords[i]
-
-        decpWord = functs.deCodePwneds(dbpWord, shift)
-        if dbpWord == decpWord:
-            message = "Login succesful"
+        if uName == "" or pWord == "":
+            message = "Please enter a username or password."
         else:
-            message = "Login Failure"
+            uNames = []
+            dbpWords = []
+            dbpWord = ""
+            uNames, dbpWords = functs.pwnedLookup(uName)
+            for i in range(len(uNames)):
+                if uNames[i] == uName:
+                    dbpWord = dbpWords[i]
 
-    return render_template('login.html', message=message)
+            decpWord = functs.deCodePwneds(dbpWord, shift)
+            if pWord  == decpWord:
+                return redirect(url_for('adminPortal'))
+            else:
+                message = "Incorrect username/password"
+    return give
+
+@app.route('/admin',methods=['post', 'get'])
+def adminPortal():
+    message=""
+    shift = int(app.config["PWNED_SHIFT"])
+    if request.method == 'POST':
+        if 'nUserMake' in request.form:
+            nUser = request.form.get("nUname")
+            nPwd = request.form.get("nPwd")
+            cUsers = []
+            pwneds = []
+            cUsers, pwneds = functs.pwnedLookup(nUser)
+            if nUser in cUsers:
+                message = "User already exists. If you have forgotten your password, use the password reset system instead."
+                return render_template('admin.html', message=message)
+            else:
+                hoomanFile = open("static/private/userAccounts/bullshit.csv", "a")
+                hoomans = csv.writer(hoomanFile)
+                enCodedPwned = functs.enCodePwneds(nPwd, shift)
+                nUser = [nUser,str(enCodedPwned)]
+                hoomans.writerow(nUser)
+                message = "User added successfully"
+                return render_template('admin.html', message=message)
+
+    return render_template('admin.html', message=message)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

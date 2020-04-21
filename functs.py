@@ -32,7 +32,7 @@ def abridStockLookup(ticker):
     return tickers, name, price
 
 def pwnedLookup(uName):
-    hoomanFile = open("static/private/userAccounts/bullshit.csv")
+    hoomanFile = open("static/private/userAccounts/bullshit.csv", "r")
     hoomans = csv.reader(hoomanFile)
     next(hoomans)
     uNames = []
@@ -52,3 +52,14 @@ def deCodePwneds(pwned, shift):
         decPwn = decPwn + nChar
 
     return decPwn
+
+
+def enCodePwneds(pwned, shift):
+    Pwn = ""
+    for char in pwned:
+        code = int(ord(char))
+        code -= shift
+        nChar = chr(code)
+        Pwn = Pwn + Pwn
+
+    return Pwn
