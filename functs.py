@@ -1,6 +1,6 @@
 import csv
 
-def stockLookup(ticker):
+def stockLookup():
     stockFile = open("backendData/stocks.csv", "r")
     stocks = csv.reader(stockFile)
     next(stocks)
@@ -16,7 +16,7 @@ def stockLookup(ticker):
 
     return tickers, name, price, vol
 
-def abridStockLookup(ticker):
+def abridStockLookup():
     stockFile = open("backendData/stocks.csv", "r")
     stocks = csv.reader(stockFile)
     next(stocks)
@@ -60,6 +60,6 @@ def enCodePwneds(pwned, shift):
         code = int(ord(char))
         code -= shift
         nChar = chr(code)
-        Pwn = Pwn + Pwn
+        Pwn = Pwn + nChar
 
     return Pwn

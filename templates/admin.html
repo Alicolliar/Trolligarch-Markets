@@ -13,32 +13,35 @@
     {% if message %}
       <p> {{message}}</p>
     {% endif %}
-
     <div style="width: 360px; float: left; padding: 10px; margin-left:10px; border: 2px solid black;">
-      <h4>User Controls</h4>
-      <h5>New user creation</h5>
+      <h4>User Controls</h4></br></br>
+      <h5>New user creation</h5></br>
       <form method="POST">
         New Username:</br>
         <input type="text" name="nUname"> </br></br>
         New Password:</br>
         <input type="password" name="nPwd"></br></br>
         <input type="hidden" name="nUserMake">
-        <input type="submit" action="createUser">
+        <input type="submit" action="">
       </form></br>
-      <h5>Existing User Password Change</h5></br>
-      <form method="POST">
-        Username:</br>
-        <input type="text" name="Uname"></br></br>
-        New Password:</br>
-        <input type="password" name="nuPwd"></br></br>
-        <input type="hidden" name="pWordChange">
-        <input type="submit" action="change">
-      </form>
     </div>
-    <div style="width: 360px; float: right; padding: 10px; margin-left:10px; border: 2px solid black;">
+    <div style="width: 360px; padding: 10px; margin-left:10px; border: 2px solid black;">
       <h4>Stock Controls</h4></br>
-      <h5>Stock Orders List</h5></br>
+      <h5>Stockc Orders List</h5></br>
       <p><a href="../orders.csv">Download latest stock orders</a></p>
+      <h5>New Stock IPO</h5></br></br>
+      <form method="POST">
+        New Stock Name:</br>
+        <input type="text" name="stockName"></br></br>
+        New Stock Symbol:</br>
+        <input type="text" name="stockSymbol"></br></br>
+        New Stock IPO price:</br>
+        <input type="number" name="stockPrice"></br></br>
+        New Stock Saleable Volume:</br>
+        <input type="number" name="stockVol"></br></br>
+        <input type="hidden" name="stockAdd">
+        <input type="submit" action="">
+      </form>
     </div>
     {% endblock %}
   </body>

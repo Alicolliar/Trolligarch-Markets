@@ -1,19 +1,17 @@
-from flask import Flask, render_template, request, make_response, send_from_directory, url_for, redirect
+from flask import Flask, render_template, request, send_from_directory, url_for, redirect
 import csv
 import functs
 app = Flask(__name__)
 
 app.config["HISTORIC_SHEETS"] = "backendData/"
-app.config["PWNED_SHIFT"] = "6"
+app.config["PWNED_SHIFT"] = "YOUR-CEASAR-SHIFT-NUMBER"
 @app.route('/backendData/<sheetName>')
 def giveHistoric(sheetName):
     return send_from_directory(app.config["HISTORIC_SHEETS"], filename=sheetName)
 
 @app.route('/')
 def home():
-    page = make_response(render_template('home.html'))
-    page.set_cookie("Got my eye on you", "I'm just funning you")
-    return page
+    return render_template('home.html')
 
 @app.route('/rawhistorical')
 def rawhistorical():
@@ -28,7 +26,7 @@ def lookup():
             name = []
             price = []
             vol = []
-            tickers, name, price, vol = functs.stockLookup(ticker)
+            tickers, name, price, vol = functs.stockLookup()
             for i in range(len(tickers)):
                 if tickers[i] == ticker:
                     data.append(ticker)
@@ -50,7 +48,7 @@ def investPage():
          tickers = []
          names = []
          prices = []
-         tickers, names, prices = functs.abridStockLookup("ticker")
+         tickers, names, prices = functs.abridStockLookup()
          for i in range(len(tickers)):
              if tickers[i] == stock:
                  price = float(prices[i])
@@ -65,7 +63,6 @@ def investPage():
 @app.route('/login', methods=['post', 'get'])
 def loginPage():
     message = ""
-    give = make_response(render_template('login.html', message=message))
     if request.method == 'POST':
         shift = int(app.config["PWNED_SHIFT"])
         uName = request.form.get("user")
@@ -86,7 +83,9 @@ def loginPage():
                 return redirect(url_for('adminPortal'))
             else:
                 message = "Incorrect username/password"
-    return give
+                return render_template('login.html', message=message)
+
+    return render_template('login.html', message=message)
 
 @app.route('/admin',methods=['post', 'get'])
 def adminPortal():
@@ -100,15 +99,37 @@ def adminPortal():
             pwneds = []
             cUsers, pwneds = functs.pwnedLookup(nUser)
             if nUser in cUsers:
-                message = "User already exists. If you have forgotten your password, use the password reset system instead."
+                message = "User already exists."
                 return render_template('admin.html', message=message)
             else:
                 hoomanFile = open("static/private/userAccounts/bullshit.csv", "a")
                 hoomans = csv.writer(hoomanFile)
                 enCodedPwned = functs.enCodePwneds(nPwd, shift)
-                nUser = [nUser,str(enCodedPwned)]
+                nUser = [nUser, enCodedPwned]
                 hoomans.writerow(nUser)
-                message = "User added successfully"
+                message = "User added successfully."
+                return render_template('admin.html', message=message)
+        elif "stockAdd" in request.form:
+            nName = request.form.get("stockName")
+            nSymbol = request.form.get("stockSymbol")
+            nIPOPrice = request.form.get("stockPrice")
+            nVol = request.form.get("stockVol")
+            nStock = [nSymbol,nName,nIPOPrice,nVol]
+            tickers = []
+            names = []
+            prices = []
+            tickers, names, prices = functs.abridStockLookup()
+            if nName in names:
+                message="Company name already listed"
+                return render_template('admin.html', message=message)
+            elif nSymbol in tickers:
+                message = "Company ticker already listed"
+                return render_template('admin.html', message=message)
+            else:
+                stockFile = open("backendData/stocks.csv", "a")
+                stockTyper = csv.writer(stockFile)
+                stockTyper.writerow(nStock)
+                message="Stock"+nName+"IPOd"
                 return render_template('admin.html', message=message)
 
     return render_template('admin.html', message=message)
