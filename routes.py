@@ -1,17 +1,22 @@
-from flask import Flask, render_template, request, send_from_directory, url_for, redirect
+from flask import Flask, render_template, request, send_from_directory, url_for, redirect, make_response
 import csv
 import functs
 app = Flask(__name__)
 
 app.config["HISTORIC_SHEETS"] = "backendData/"
-app.config["PWNED_SHIFT"] = "YOUR-CEASAR-SHIFT-NUMBER"
+app.config["PWNED_SHIFT"] = "6"
 @app.route('/backendData/<sheetName>')
 def giveHistoric(sheetName):
     return send_from_directory(app.config["HISTORIC_SHEETS"], filename=sheetName)
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    if 'loggedIn' not in request.cookies:
+        home = make_response(render_template('home.html'))
+        home.set_cookie('loggedIn', "False")
+        return home
+    else:
+        return render_template('home.html')
 
 @app.route('/rawhistorical')
 def rawhistorical():
@@ -80,12 +85,18 @@ def loginPage():
 
             decpWord = functs.deCodePwneds(dbpWord, shift)
             if pWord  == decpWord:
-                return redirect(url_for('adminPortal'))
+                admin = make_response(redirect(url_for('adminPortal')))
+                admin.set_cookie("loggedIn", "True")
+                return admin
             else:
                 message = "Incorrect username/password"
                 return render_template('login.html', message=message)
 
-    return render_template('login.html', message=message)
+    loggedIn = request.cookies.get('loggedIn')
+    if loggedIn == "True":
+        return redirect(url_for('adminPortal'))
+    else:
+        return render_template('login.html', message=message)
 
 @app.route('/admin',methods=['post', 'get'])
 def adminPortal():
@@ -131,8 +142,16 @@ def adminPortal():
                 stockTyper.writerow(nStock)
                 message="Stock"+nName+"IPOd"
                 return render_template('admin.html', message=message)
+        elif "logout" in request.form:
+            login = make_response(redirect(url_for('home')))
+            login.set_cookie("loggedIn", "False")
+            return login
 
-    return render_template('admin.html', message=message)
+    loggedIn = request.cookies.get("loggedIn")
+    if loggedIn == "False":
+        return redirect(url_for('loginPage'))
+    else:
+        return render_template('admin.html', message=message)
 
 
 if __name__ == '__main__':
